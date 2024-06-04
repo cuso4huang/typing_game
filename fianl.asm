@@ -28,6 +28,68 @@ print macro str;
     pop dx
     endm
 
+song segment
+db
+"Enchanted (Taylor's Version)$"
+"Taylor Swift$"
+"There I was again tonight$"
+"Forcing laughter, faking smiles$"
+"Same old tired, lonely place$"
+"Walls of insincerity$"
+"Shifting eyes and vacancy$"
+"Vanished when I saw your face$"
+"All I can say is it was enchanting to meet you$"
+"Your eyes whispered, Have we met?$"
+"Across the room, your silhouette$"
+"Starts to make its way to me$"
+"The playful conversation starts$"
+"Counter all your quick remarks$"
+"Like passing notes in secrecy$"
+"And it was enchanting to meet you$"
+"All I can say is I was enchanted to meet you$"
+"This night is sparkling, don't you let it go$"
+"I'm wonderstruck, blushing all the way home$"
+"I'll spend forever wondering if you knew$"
+"I was enchanted to meet you$"
+"The lingering question kept me up$"
+"2 a.m., who do you love?$"
+"I wonder 'til I'm wide awake$"
+"And now I'm pacing back and forth$"
+"Wishing you were at my door$"
+"I'd open up and you would say$"
+"Hey, it was enchanting to meet you$"
+"All I know is I was enchanted to meet you$"
+"This night is sparkling, don't you let it go$"
+"I'm wonderstruck, blushing all the way home$"
+"I'll spend forever wondering if you knew$"
+"This night is flawless, don't you let it go$"
+"I'm wonderstruck, dancing around all alone$"
+"I'll spend forever wondering if you knew$"
+"I was enchanted to meet you$"
+"This is me praying that$"
+"This was the very first page$"
+"Not where the storyline ends$"
+"My thoughts will echo your name$"
+"Until I see you again$"
+"These are the words I held back$"
+"As I was leaving too soon$"
+"I was enchanted to meet you$"
+"Please, don't be in love with someone else$"
+"Please, don't have somebody waiting on you$"
+"Please, don't be in love with someone else$"
+"Please, don't have somebody waiting on you$"
+"This night is sparkling, don't you let it go$"
+"I'm wonderstruck, blushing all the way home$"
+"I'll spend forever wondering if you knew$"
+"This night is flawless, don't you let it go$"
+"I'm wonderstruck, dancing around all alone$"
+"I'll spend forever wondering if you knew$"
+"I was enchanted to meet you$"
+"Please, don't be in love with someone else$"
+"Please, don't have somebody waiting on you$"   
+song    ends
+
+
 
 date segment 
     line1           db "++====+=====+=====+=====+=====+=====+===++$"
@@ -44,8 +106,6 @@ date segment
     total_count dw 0
     start_r equ 23
     start_c equ 2
-    string db "hello,world!$"
-    
     
 date ends
 
@@ -106,7 +166,11 @@ start_view proc
     je close_game
     jmp error
 start_game:
-    ;开始游戏
+    ;开始游戏 
+    scroll 0,0,0,25,80,50h;开外窗口，品红底
+    scroll 0,1,2,23,78,3fh;开内窗口，浅绿底，白字
+    curse start_r,start_c
+    call game
 check_score:
     ;查看分数
 close_game:
@@ -119,6 +183,49 @@ error:
 start_view endp
     
     
+;开始游戏子程序
+game proc
+   print string
+   lea si,string
+   curse start_r,start_c
+   mov cx,20;每行输出20个字符
+loop1:
+   call process_input
+   inc si
+   call update_cursor
+   loop loop1
+   
+   
+   
+   
+   
+   ret
+game endp
+
+
+
+
+
+;更新光标位置
+update_cursor proc
+    push ax
+    push dx
+    push bx
+    ;读光标位置
+    mov ah,3
+    mov bh,0
+    int 10h
+    inc dl
+    ;置光标位置
+    mov ah,2
+    int 10h
+    pop bx
+    pop dx
+    pop ax
+    ret    
+    
+update_cursor endp
+   
          
      
    ;处理用户输入,1个字符
