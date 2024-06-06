@@ -26,86 +26,167 @@ print macro str;
     int 21h
     pop ax
     pop dx
-    endm
+endm  
 
-song segment
-db
-"Enchanted (Taylor's Version)$"
-"Taylor Swift$"
-"There I was again tonight$"
-"Forcing laughter, faking smiles$"
-"Same old tired, lonely place$"
-"Walls of insincerity$"
-"Shifting eyes and vacancy$"
-"Vanished when I saw your face$"
-"All I can say is it was enchanting to meet you$"
-"Your eyes whispered, Have we met?$"
-"Across the room, your silhouette$"
-"Starts to make its way to me$"
-"The playful conversation starts$"
-"Counter all your quick remarks$"
-"Like passing notes in secrecy$"
-"And it was enchanting to meet you$"
-"All I can say is I was enchanted to meet you$"
-"This night is sparkling, don't you let it go$"
-"I'm wonderstruck, blushing all the way home$"
-"I'll spend forever wondering if you knew$"
-"I was enchanted to meet you$"
-"The lingering question kept me up$"
-"2 a.m., who do you love?$"
-"I wonder 'til I'm wide awake$"
-"And now I'm pacing back and forth$"
-"Wishing you were at my door$"
-"I'd open up and you would say$"
-"Hey, it was enchanting to meet you$"
-"All I know is I was enchanted to meet you$"
-"This night is sparkling, don't you let it go$"
-"I'm wonderstruck, blushing all the way home$"
-"I'll spend forever wondering if you knew$"
-"This night is flawless, don't you let it go$"
-"I'm wonderstruck, dancing around all alone$"
-"I'll spend forever wondering if you knew$"
-"I was enchanted to meet you$"
-"This is me praying that$"
-"This was the very first page$"
-"Not where the storyline ends$"
-"My thoughts will echo your name$"
-"Until I see you again$"
-"These are the words I held back$"
-"As I was leaving too soon$"
-"I was enchanted to meet you$"
-"Please, don't be in love with someone else$"
-"Please, don't have somebody waiting on you$"
-"Please, don't be in love with someone else$"
-"Please, don't have somebody waiting on you$"
-"This night is sparkling, don't you let it go$"
-"I'm wonderstruck, blushing all the way home$"
-"I'll spend forever wondering if you knew$"
-"This night is flawless, don't you let it go$"
-"I'm wonderstruck, dancing around all alone$"
-"I'll spend forever wondering if you knew$"
-"I was enchanted to meet you$"
-"Please, don't be in love with someone else$"
-"Please, don't have somebody waiting on you$"   
-song    ends
+get_time macro hour, minute,second
+    mov ah,2ch
+    int 21h
+    mov hour,ch
+    mov minute, cl
+    mov second, dh 
+        
+endm 
 
+ hex_to_dec_byte macro h
+    
+    local l1,output
+    mov cx,0;计数器
+    mov al,h
+l1:    
+    xor ah,ah
+    mov dl,10
+    div dl;商在al，余数在ah
+    mov dl,ah
+    xor dh,dh
+    push dx
+    inc cx
+    cmp al,0
+    je output
+    jmp l1
+output:    
+    pop dx
+    add dl,'0'
+    mov ah,2
+    int 21h
+    loop output 
+    
+    endm 
+ 
+  hex_to_dec_word macro h
+    
+    local l1,output
+    mov cx,0;计数器
+    mov ax,h
+l1:    
+    mov dl,10
+    div dl;商在al，余数在ah
+    mov dl,ah
+    xor dh,dh
+    push dx
+    inc cx
+    mov ah,0
+    cmp al,0
+    je output
+    jmp l1
+output:    
+    pop dx
+    add dl,'0'
+    mov ah,2
+    int 21h
+    loop output 
+    
+    endm 
+ 
 
 
 date segment 
-    line1           db "++====+=====+=====+=====+=====+=====+===++$"
-    author          db "||         Author:2022102151-hzq        ||$"
-    welcome_prompt  db "||      Welcome to the typing game!     ||$"
-    exit_prompt     db "|| Press the esc button to esc the game ||$"
-    choice_prompt   db "||  Press number to choose your choice  ||$ "
-    choice1         db "||          1.start the game            ||$"
-    choice2         db "||          2.check my score            ||$"
-    choice3         db "||          3.close the game            ||$"
-    line2           db "++====+=====+=====+=====+=====+=====+===++$"
-    your_choice     db "            Your choice:  $"
+    song1 db "Enchanted (Taylor's Version)$" 
+db "Taylor Swift$"
+db "There I was again tonight$"
+db "Forcing laughter, faking smiles$"
+db "Same old tired, lonely place$"
+db "Walls of insincerity$"
+db "Shifting eyes and vacancy$"
+db "Vanished when I saw your face$"
+db "All I can say is it was enchanting to meet you$"
+db "Your eyes whispered, Have we met$"  ;很奇怪问号被当成了双引号
+db "Across the room, your silhouette$"
+db "Starts to make its way to me$"
+db "The playful conversation starts$"
+db "Counter all your quick remarks$"
+db "Like passing notes in secrecy$"
+db "And it was enchanting to meet you$"
+db "All I can say is I was enchanted to meet you$"
+db "This night is sparkling, don't you let it go$"
+db "I'm wonderstruck, blushing all the way home$"
+db "I'll spend forever wondering if you knew$"
+db "I was enchanted to meet you$"
+db "The lingering question kept me up$"
+db "2 a.m., who do you love$"
+db "I wonder 'til I'm wide awake$"
+db "And now I'm pacing back and forth$"
+db "Wishing you were at my door$"
+db "I'd open up and you would say$"
+db "Hey, it was enchanting to meet you$"
+db "All I know is I was enchanted to meet you$"
+db "This night is sparkling, don't you let it go$"
+db "I'm wonderstruck, blushing all the way home$"
+db "I'll spend forever wondering if you knew$"
+db "This night is flawless, don't you let it go$"
+db "I'm wonderstruck, dancing around all alone$"
+db "I'll spend forever wondering if you knew$"
+db "I was enchanted to meet you$"
+db "This is me praying that$"
+db "This was the very first page$"
+db "Not where the storyline ends$"
+db "My thoughts will echo your name$"
+db "Until I see you again$"
+db "These are the words I held back$"
+db "As I was leaving too soon$"
+db "I was enchanted to meet you$"
+db "Please, don't be in love with someone else$"
+db "Please, don't have somebody waiting on you$"
+db "Please, don't be in love with someone else$"
+db "Please, don't have somebody waiting on you$"
+db "This night is sparkling, don't you let it go$"
+db "I'm wonderstruck, blushing all the way home$"
+db "I'll spend forever wondering if you knew$"
+db "This night is flawless, don't you let it go$"
+db "I'm wonderstruck, dancing around all alone$"
+db "I'll spend forever wondering if you knew$"
+db "I was enchanted to meet you$"
+db "Please, don't be in love with someone else$"
+db "Please, don't have somebody waiting on you$"
+db "#";结束标志   
+    
+    
+    
+    
+    
+    line1           db "++====+=====+=====+=====+=====+=====+====++$"
+    author          db "||         Author:2022102151-hzq         ||$"
+    welcome_prompt  db "||      Welcome to the typing game!      ||$"
+    exit_prompt     db "|| Press the esc button to quit the game ||$"
+    choice_prompt   db "||  Press number to choose your choice   ||$ "
+    choice1         db "||          1.start the game             ||$"
+    choice2         db "||          2.check my score             ||$"
+    choice3         db "||          3.close the game             ||$"
+    line2           db "++====+=====+=====+=====+=====+=====+====++$"
+    your_choice     db "            Your choice:  $"   
+    end_prompt      db "Congratulation!You hava pass the game!   $"
+    stop_prompt     db "Press any key to continue..              $"
     correct_count dw 0
     total_count dw 0
     start_r equ 23
-    start_c equ 2
+    start_c equ 2 
+    
+    start_h db 0
+    start_min db 0
+    start_sec db 0
+    end_h db 0
+    end_min db 0
+    end_sec db 0
+    cost_h   dw 0
+    cost_min dw 0
+    cost_sec dw 0
+     
+    start_time_prompt   db "start:      $"  
+    end_time_prompt     db "end:        $"
+    cost_prompt         db "cost:       $"
+    score_prompt        db "your score: $" 
+    h_str               db " h $"
+    min_str             db " min $"
+    sec_str             db " s   $" 
     
 date ends
 
@@ -117,20 +198,17 @@ stack ends
 
 code segment
 start:
+    ;初始化视频模式，80*25文本模式
+    mov ax, 03h
+    int 10h
     mov ax,date
     mov ds,ax
     mov ax,stack
     mov ss,ax
- 
+
     call start_view
     
 
-     
-    ;print string
-    ;lea si,string
-    ;curse 23,2
-    ;call process_input
-    
 
       
      ;开始界面
@@ -145,16 +223,18 @@ start_view proc
     curse 11,19
     print welcome_prompt
     curse 12,19
-    print choice_prompt
+    print exit_prompt
     curse 13,19
-    print choice1
+    print choice_prompt
     curse 14,19
-    print choice2
+    print choice1
     curse 15,19
-    print choice3
+    print choice2
     curse 16,19
-    print line2
+    print choice3
     curse 17,19
+    print line2
+    curse 18,19
     print your_choice
     mov ah,1
     int 21h
@@ -173,6 +253,13 @@ start_game:
     call game
 check_score:
     ;查看分数
+    call check
+    print stop_prompt
+    mov ah,1
+    int 21h
+    call start_view
+    
+    
 close_game:
     ;关闭游戏
     mov ax,4c00h
@@ -184,21 +271,44 @@ start_view endp
     
     
 ;开始游戏子程序
+;开始游戏子程序
 game proc
-   print string
-   lea si,string
+   ;清空得分
+   mov ax,0
+   mov [correct_count],ax
+   mov [total_count],ax
+   get_time start_h,start_min,start_sec
+   lea bx,song1
+l1:  
+   print bx
+   mov si,bx
    curse start_r,start_c
-   mov cx,20;每行输出20个字符
-loop1:
+l2:   
    call process_input
    inc si
    call update_cursor
-   loop loop1
-   
-   
-   
-   
-   
+   cmp [si],'$'
+   je update
+   jmp l2
+update:
+    ;上滚一行，光标归位
+    scroll 1,1,2,23,78,3fh
+    curse start_r,start_c 
+    inc si
+    cmp [si],'#'
+    je congratulation
+    mov bx,si
+    jmp l1
+congratulation: 
+    get_time end_h,end_min,end_sec
+    scroll 0,1,2,23,78,3fh;清屏
+    curse 9,19
+    print end_prompt
+    curse 10,19
+    print stop_prompt
+    mov ah,1
+    int 21h
+    call start_view
    ret
 game endp
 
@@ -246,7 +356,7 @@ correct_input:
     mov ah,09h
     mov al,[si]
     mov bh,0
-    mov bl,2;绿色
+    mov bl,02h;黑色背景，绿色字体
     mov cx,1
     int 10h
     jmp e1
@@ -258,7 +368,7 @@ incorrect_input:
     mov ah,09h
     mov al,[si]
     mov bh,0
-    mov bl,4;红色
+    mov bl,04h;黑色背景，红色字体
     mov cx,1
     int 10h
 
@@ -269,15 +379,104 @@ e1:
     ret
 
 quit:
+    get_time end_h,end_min,end_sec
     call start_view
+
+check proc
+    ;查看成绩子程序
+    ;先清屏
+    scroll 0,1,2,23,78,3fh; 
+    curse 9,19
+
+    lea dx,start_time_prompt
+    mov ah,9
+    int 21h
+    
+    hex_to_dec_byte start_h
+    call display_colon
+    hex_to_dec_byte start_min
+    call display_colon
+    hex_to_dec_byte start_sec 
+    
+    
+    curse 10,19
+    lea dx,end_time_prompt
+    mov ah,9
+    int 21h
+    hex_to_dec_byte end_h
+    call display_colon
+    hex_to_dec_byte end_min
+    call display_colon
+    hex_to_dec_byte end_sec    
+
+    
+    curse 11,19
+    print cost_prompt
+    call cost_time
+    hex_to_dec_word cost_h
+    print h_str
+    hex_to_dec_word cost_min
+    print min_str
+    hex_to_dec_word cost_sec
+    print sec_str
+    
+    curse 12,19
+    ;输出分数
+    print score_prompt
+    hex_to_dec_word correct_count 
+    
+    mov dl,"/"
+    mov ah,2
+    int 21h
+    hex_to_dec_word total_count
+    curse 13,19
+    ret
+check   endp   
      
+     
+cost_time proc
+    mov al,end_h
+    sub al,start_h
+    mov dl,60
+    mul dl
+    mov [cost_h],ax
+    add [start_min],al
+    mov al,start_min
+    mov dl,60
+    mul dl
+    mov bl,start_sec
+    mov bh,0
+    add ax,bx
+    mov cost_sec,ax
+    
+    mov al,end_min
+    mov dl,60
+    mul dl
+    mov bl,end_sec
+    mov bh,0
+    add ax,bx
+    sub ax,cost_sec
+    mov dl,60
+    div dl
+    mov dl,ah
+    mov dh,0
+    mov cost_sec,dx
+    mov ah,0
+    mov cost_min,ax 
+    ret
+    endp
 
 
-    
 
-    
-    
-    
+
+
+
+display_colon proc 
+    mov dl,':'
+    mov ah,2
+    int 21h
+    ret
+    endp  
 
 code ends
 end start
