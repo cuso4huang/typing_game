@@ -28,12 +28,13 @@ print macro str;
     pop dx
 endm  
 
-get_time macro hour, minute,second
+get_time macro hour, minute,second,msec
     mov ah,2ch
     int 21h
     mov hour,ch
     mov minute, cl
-    mov second, dh 
+    mov second, dh
+    mov msec,dl 
         
 endm 
 
@@ -60,7 +61,7 @@ output:
     int 21h
     loop output 
     
-    endm 
+hex_to_dec_byte    endm 
  
   hex_to_dec_word macro h
     
@@ -85,68 +86,76 @@ output:
     int 21h
     loop output 
     
-    endm 
+hex_to_dec_word    endm 
  
 
 
 date segment 
-    song1 db "Enchanted (Taylor's Version)$" 
-db "Taylor Swift$"
-db "There I was again tonight$"
-db "Forcing laughter, faking smiles$"
-db "Same old tired, lonely place$"
-db "Walls of insincerity$"
-db "Shifting eyes and vacancy$"
-db "Vanished when I saw your face$"
-db "All I can say is it was enchanting to meet you$"
-db "Your eyes whispered, Have we met$"  ;很奇怪问号被当成了双引号
-db "Across the room, your silhouette$"
-db "Starts to make its way to me$"
-db "The playful conversation starts$"
-db "Counter all your quick remarks$"
-db "Like passing notes in secrecy$"
-db "And it was enchanting to meet you$"
-db "All I can say is I was enchanted to meet you$"
-db "This night is sparkling, don't you let it go$"
-db "I'm wonderstruck, blushing all the way home$"
-db "I'll spend forever wondering if you knew$"
-db "I was enchanted to meet you$"
-db "The lingering question kept me up$"
-db "2 a.m., who do you love$"
-db "I wonder 'til I'm wide awake$"
-db "And now I'm pacing back and forth$"
-db "Wishing you were at my door$"
-db "I'd open up and you would say$"
-db "Hey, it was enchanting to meet you$"
-db "All I know is I was enchanted to meet you$"
-db "This night is sparkling, don't you let it go$"
-db "I'm wonderstruck, blushing all the way home$"
-db "I'll spend forever wondering if you knew$"
-db "This night is flawless, don't you let it go$"
-db "I'm wonderstruck, dancing around all alone$"
-db "I'll spend forever wondering if you knew$"
-db "I was enchanted to meet you$"
-db "This is me praying that$"
-db "This was the very first page$"
-db "Not where the storyline ends$"
-db "My thoughts will echo your name$"
-db "Until I see you again$"
-db "These are the words I held back$"
-db "As I was leaving too soon$"
-db "I was enchanted to meet you$"
-db "Please, don't be in love with someone else$"
-db "Please, don't have somebody waiting on you$"
-db "Please, don't be in love with someone else$"
-db "Please, don't have somebody waiting on you$"
-db "This night is sparkling, don't you let it go$"
-db "I'm wonderstruck, blushing all the way home$"
-db "I'll spend forever wondering if you knew$"
-db "This night is flawless, don't you let it go$"
-db "I'm wonderstruck, dancing around all alone$"
-db "I'll spend forever wondering if you knew$"
-db "I was enchanted to meet you$"
-db "Please, don't be in love with someone else$"
-db "Please, don't have somebody waiting on you$"
+
+;db "Enchanted (Taylor's Version)$" 
+;db "Taylor Swift$" 
+ song1  db "There I wa$"
+db "s again to$"
+db "night Forc$"
+db "ing laught$"
+db "er, faking$"
+db "smiles Sam$"
+db "e old tire$"
+db "d, lonelyp$"
+db "lace Walls$"
+db "of insince$"
+;db "rity$"
+;db "Shifting eyes and vacancy$"
+;db "Vanished when I saw your face$"
+;db "All I can say is it was enchanting to meet you$"
+;db "Your eyes whispered, Have we met$"  ;很奇怪问号被当成了双引号
+;db "Across the room, your silhouette$"
+;db "Starts to make its way to me$"
+;db "The playful conversation starts$"
+;db "Counter all your quick remarks$"
+;db "Like passing notes in secrecy$"
+;db "And it was enchanting to meet you$"
+;db "All I can say is I was enchanted to meet you$"
+;db "This night is sparkling, don't you let it go$"
+;db "I'm wonderstruck, blushing all the way home$"
+;db "I'll spend forever wondering if you knew$"
+;db "I was enchanted to meet you$"
+;db "The lingering question kept me up$"
+;db "2 a.m., who do you love$"
+;db "I wonder 'til I'm wide awake$"
+;db "And now I'm pacing back and forth$"
+;db "Wishing you were at my door$"
+;db "I'd open up and you would say$"
+;db "Hey, it was enchanting to meet you$"
+;db "All I know is I was enchanted to meet you$"
+;db "This night is sparkling, don't you let it go$"
+;db "I'm wonderstruck, blushing all the way home$"
+;db "I'll spend forever wondering if you knew$"
+;db "This night is flawless, don't you let it go$"
+;db "I'm wonderstruck, dancing around all alone$"
+;db "I'll spend forever wondering if you knew$"
+;db "I was enchanted to meet you$"
+;db "This is me praying that$"
+;db "This was the very first page$"
+;db "Not where the storyline ends$"
+;db "My thoughts will echo your name$"
+;db "Until I see you again$"
+;db "These are the words I held back$"
+;db "As I was leaving too soon$"
+;db "I was enchanted to meet you$"
+;db "Please, don't be in love with someone else$"
+;db "Please, don't have somebody waiting on you$"
+;db "Please, don't be in love with someone else$"
+;db "Please, don't have somebody waiting on you$"
+;db "This night is sparkling, don't you let it go$"
+;db "I'm wonderstruck, blushing all the way home$"
+;db "I'll spend forever wondering if you knew$"
+;db "This night is flawless, don't you let it go$"
+;db "I'm wonderstruck, dancing around all alone$"
+;db "I'll spend forever wondering if you knew$"
+;db "I was enchanted to meet you$"
+;db "Please, don't be in love with someone else$"
+;db "Please, don't have somebody waiting on you$"
 db "#";结束标志   
     
     
@@ -164,7 +173,9 @@ db "#";结束标志
     line2           db "++====+=====+=====+=====+=====+=====+====++$"
     your_choice     db "            Your choice:  $"   
     end_prompt      db "Congratulation!You hava pass the game!   $"
-    stop_prompt     db "Press any key to continue..              $"
+    stop_prompt     db "Press any key to continue..              $" 
+    close_prompt    db "Good bye ,wish you hava a good time!     $"
+ready_quit_prompt   db "Press 1 to quit,other keys to continue:  $"
     correct_count dw 0
     total_count dw 0
     start_r equ 23
@@ -173,12 +184,16 @@ db "#";结束标志
     start_h db 0
     start_min db 0
     start_sec db 0
+    start_msec db 0
     end_h db 0
     end_min db 0
     end_sec db 0
+    end_msec db 0
     cost_h   dw 0
     cost_min dw 0
     cost_sec dw 0
+    cost_msec dw 0 
+    cnt db 0
      
     start_time_prompt   db "start:      $"  
     end_time_prompt     db "end:        $"
@@ -186,7 +201,8 @@ db "#";结束标志
     score_prompt        db "your score: $" 
     h_str               db " h $"
     min_str             db " min $"
-    sec_str             db " s   $" 
+    sec_str             db " s   $"
+    msec_str            db " msec$" 
     
 date ends
 
@@ -262,6 +278,9 @@ check_score:
     
 close_game:
     ;关闭游戏
+    scroll 0,1,2,23,78,3fh;开内窗口，浅绿底，白字
+    curse 12,19
+    print close_prompt
     mov ax,4c00h
     int 21h
 error:
@@ -277,7 +296,7 @@ game proc
    mov ax,0
    mov [correct_count],ax
    mov [total_count],ax
-   get_time start_h,start_min,start_sec
+   get_time start_h,start_min,start_sec,start_msec
    lea bx,song1
 l1:  
    print bx
@@ -292,6 +311,8 @@ l2:
    jmp l2
 update:
     ;上滚一行，光标归位
+    mov al,0
+    mov [cnt],al
     scroll 1,1,2,23,78,3fh
     curse start_r,start_c 
     inc si
@@ -300,11 +321,15 @@ update:
     mov bx,si
     jmp l1
 congratulation: 
-    get_time end_h,end_min,end_sec
+    get_time end_h,end_min,end_sec,end_msec
     scroll 0,1,2,23,78,3fh;清屏
     curse 9,19
     print end_prompt
     curse 10,19
+    print stop_prompt
+    mov ah,1
+    int 21h
+    call check
     print stop_prompt
     mov ah,1
     int 21h
@@ -344,6 +369,8 @@ process_input proc
     push ax
     push bx
     push cx
+back:
+
     mov ah,00h
     int 16h
     cmp al,[si]
@@ -359,19 +386,20 @@ correct_input:
     mov bl,02h;黑色背景，绿色字体
     mov cx,1
     int 10h
+    inc cnt
     jmp e1
 incorrect_input: 
     cmp al,1bh;是不是esc键
     je quit
-    ;更新总计数
-    inc total_count
+    ;更新总计数 
+    inc total_count    
     mov ah,09h
     mov al,[si]
     mov bh,0
     mov bl,04h;黑色背景，红色字体
     mov cx,1
+    inc cnt
     int 10h
-
 e1:  
     pop cx
     pop bx
@@ -379,7 +407,22 @@ e1:
     ret
 
 quit:
-    get_time end_h,end_min,end_sec
+    scroll 0,1,2,6,78,3fh;
+    curse 1,2
+    print ready_quit_prompt
+    mov ah,1
+    int 21h
+    cmp al,'1'
+    jne quit1
+    jmp quit2
+ quit1:
+    scroll 0,1,2,6,78,3fh; 
+    mov al,cnt
+    add al,start_c
+    curse start_r,al 
+    jmp back
+ quit2:
+    get_time end_h,end_min,end_sec,end_msec
     call start_view
 
 check proc
@@ -397,7 +440,8 @@ check proc
     hex_to_dec_byte start_min
     call display_colon
     hex_to_dec_byte start_sec 
-    
+    call display_colon
+    hex_to_dec_byte start_msec
     
     curse 10,19
     lea dx,end_time_prompt
@@ -408,7 +452,8 @@ check proc
     hex_to_dec_byte end_min
     call display_colon
     hex_to_dec_byte end_sec    
-
+    call display_colon
+    hex_to_dec_byte end_msec
     
     curse 11,19
     print cost_prompt
@@ -419,6 +464,8 @@ check proc
     print min_str
     hex_to_dec_word cost_sec
     print sec_str
+    hex_to_dec_word cost_msec
+    print msec_str
     
     curse 12,19
     ;输出分数
@@ -435,36 +482,49 @@ check   endp
      
      
 cost_time proc
-    mov al,end_h
-    sub al,start_h
-    mov dl,60
-    mul dl
+    mov al,[end_h]
+    sub al,[start_h]
+    mov ah,0 
     mov [cost_h],ax
-    add [start_min],al
-    mov al,start_min
-    mov dl,60
-    mul dl
-    mov bl,start_sec
-    mov bh,0
-    add ax,bx
-    mov cost_sec,ax
+    
+   
     
     mov al,end_min
-    mov dl,60
-    mul dl
-    mov bl,end_sec
-    mov bh,0
-    add ax,bx
-    sub ax,cost_sec
-    mov dl,60
-    div dl
-    mov dl,ah
-    mov dh,0
-    mov cost_sec,dx
-    mov ah,0
-    mov cost_min,ax 
+    sub al,start_min
+    cmp al,0
+    jl jm0
+    jmp jm1
+
+jm0:
+    add al,60
+    dec [cost_h]
+jm1:
+    mov [cost_min],ax
+
+    
+    mov al,end_sec
+    sub al,start_sec
+    cmp al,0
+    jl jm2
+    jmp jm3
+jm2:
+    add al,60
+    dec [cost_min]
+jm3:
+    mov [cost_sec],ax   
+    
+    mov al,end_msec
+    sub al,start_msec
+    cmp al,0
+    jl jm4
+    jmp jm5
+jm4:
+    add al,100
+    dec [cost_sec]
+jm5:
+    mov [cost_msec],ax
     ret
-    endp
+cost_time    endp
 
 
 
@@ -476,7 +536,7 @@ display_colon proc
     mov ah,2
     int 21h
     ret
-    endp  
+display_colon    endp  
 
 code ends
 end start
